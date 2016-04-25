@@ -1,7 +1,9 @@
 #include "Net.h"
 
-Net::Net(const std::vector<unsigned> &topology, const double eta){
-   std::cout << "net constructor" << std::endl; 
+Net::Net(const std::vector<unsigned> &topology, const double eta) 
+	: numInputUnit(topology[0]), numHiddenUnit(topology[1]), numOutputUnit(topology[2]), eta(eta){
+   std::cout << "net constructor " 
+   << this->numInputUnit << this->numHiddenUnit << this->numOutputUnit << this->eta << std::endl; 
 }
 
 void Net::feedForward(const std::vector<double> &inputVals) {

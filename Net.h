@@ -43,6 +43,10 @@ public:
 
 private:
 	// ...
+	const double eta;
+	const int numInputUnit;
+	const int numHiddenUnit;
+	const int numOutputUnit;
 };
 
 
