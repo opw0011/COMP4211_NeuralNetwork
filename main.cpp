@@ -58,6 +58,8 @@ int main()
         // Report how well the training is working, average over recent samples:
         std::cout << "loss: "
                 << myNet.getError() << std::endl;
+
+        // break;
     }
 
     std::cout << std::endl << "Training Complete" << std::endl;

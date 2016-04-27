@@ -1,72 +1,17 @@
 #include "Net.h"
 #include <math.h>
 
-
 using namespace std;
 
-// Net::Net(const std::vector<unsigned> &topology, const double eta) 
-// 	: numInputUnit(topology[0]), numHiddenUnit(topology[1]), numOutputUnit(topology[2]), eta(eta){
-//    std::cout << "net constructor " 
-//    << this->numInputUnit << this->numHiddenUnit << this->numOutputUnit << this->eta << std::endl; 
-
-//    // copy the input topology
-//    numNeurons = new int[topology.size()];
-//    for(int i=0; i<topology.size(); i++)
-//    		numNeurons[i] = topology[i];
-
-//    	// allocate memory to arrays
-//    	int numLayers = topology.size();
-//    	weight = new double**[numLayers];
-//     for(int i = 0; i < topology[0]; i++){
-//         weight[i] = new double*[topology[1]];
-//     }
-//     for(int i = 0; i < topology[0];i++){
-//         for(int j = 0; j < topology[1]; j++){
-//             weight[i][j]=new double[topology[2]];
-//         }
-//     }
-
-//     cout << "test" << endl;
-
-
-//    	// initial the weight to small random number
-//    	// for each layer
-//    	for(int i = 0; i < numNeurons[i]; i++) {
-//    		// for each neuron j, k
-//    		for(int j = 0; j < numNeurons[j]; j++) {
-//    			for(int k = 0; k < numNeurons[k]; k++) {
-//    				weight[i][j][k] = 1.234;
-//    				std::cout << weight[i][j][k] << std::endl;
-//    			}
-//    		}
-//    		std::cout << "Next layer" << std::endl;
-//    	}
-// }
-
-// void Net::feedForward(const std::vector<double> &inputVals) {
-//    std::cout << "feed forward" << std::endl;
-// }
-
-// void Net::backProp(const std::vector<double> &targetVals) {
-//    std::cout << "back prop" << std::endl;
-// }
-
-// void Net::getResults(std::vector<double> &resultVals) const {
-//     std::cout << "result" << std::endl;
-// }
-
 double Net::getError(void) const {
-    // std::cout << "error " << sigmoid(10.2) << std::endl;
-    // 1/2 sum_k=outputUnits(tk- ok)^2
-    return m_recentAverageError;
-
+    return m_error;
 }
 
-double Net::sigmoid(double x) const{
-	double exp_val;
-	exp_val = exp((double) -x);
-	return 1 / (1 + exp_val);
-}
+// double Net::sigmoid(double x) const{
+// 	double exp_val;
+// 	exp_val = exp((double) -x);
+// 	return 1 / (1 + exp_val);
+// }
 
 Net::Net(const std::vector<unsigned> &topology, const double eta)
 {
@@ -111,17 +56,23 @@ void Net::backProp(const std::vector<double> &targetVals)
 	Layer &outputLayer = m_layers.back();
 	m_error = 0.0;
 
-	for (unsigned n = 0; n < outputLayer.size() - 1; ++n) {
-		double delta = targetVals[n] - outputLayer[n].getOutputVal();
-		m_error += delta * delta;
+	// 1/2 sum_k=outputUnits(tk- ok)^2
+
+	// for (unsigned n = 0; n < outputLayer.size() - 1; ++n) {
+	// 	double delta = targetVals[n] - outputLayer[n].getOutputVal();
+	// 	m_error += delta * delta;
+	// }
+	// m_error /= outputLayer.size() - 1;
+	// m_error = sqrt(m_error);  // RMS
+	for (int i = 0; i < outputLayer.size() -1; i++) {
+		double delta = targetVals[i] - outputLayer[i].getOutputVal();
+		m_error += 0.5 * delta * delta;
 	}
-	m_error /= outputLayer.size() - 1;
-	m_error = sqrt(m_error);  // RMS
 
 	// implement a recent avg measurement
-	m_recentAverageError = 
-			(m_recentAverageError * m_recentAverageSmoothingFactor + m_error)
-			/ (m_recentAverageSmoothingFactor + 1.0);
+	// m_recentAverageError = 
+	// 		(m_recentAverageError * m_recentAverageSmoothingFactor + m_error)
+	// 		/ (m_recentAverageSmoothingFactor + 1.0);
 
 	// calc output layer gradients
 
