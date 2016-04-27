@@ -4,7 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-
+#include <cstdlib>
+#include <cmath>
 
 class Net
 {
@@ -43,10 +44,27 @@ public:
 
 private:
 	// ...
-	const double eta;
-	const int numInputUnit;
-	const int numHiddenUnit;
-	const int numOutputUnit;
+	// const double eta;
+	// const int numInputUnit;
+	// const int numHiddenUnit;
+	// const int numOutputUnit;
+	// sigmoid function
+	double sigmoid(double x) const;
+
+	// weight between layer i, jth neuron and layer i+1, kth neuron; weight[i][j][k] 
+	double ***weight;
+
+	// output of neuron 
+	double ** output;
+
+	// the number of neurons in each layer
+	int* numNeurons;
+
+	std::vector<Layer> m_layers; //m_layers[layerNum][neuronNum]
+	double m_error;
+	double m_recentAverageError;
+	double m_recentAverageSmoothingFactor;
+
 };
 
 

@@ -41,7 +41,7 @@ int main()
         }
         showVectorVals(": Inputs:", inputVals);
 
-	// feed Forward	
+    // feed Forward 
         myNet.feedForward(inputVals);
 
         // Collect the net's actual output results:
