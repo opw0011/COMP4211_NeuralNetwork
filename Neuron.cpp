@@ -1,7 +1,6 @@
 #include "Neuron.h"
 
 double Neuron::eta = 0.5; // overall net learning rate
-// double Neuron::alpha = 0.5; // momentum, multiplier of last deltaWeight
 
 Neuron::Neuron(int numOutputs, int myIndex)
 {
@@ -31,27 +30,6 @@ void Neuron::feedForward(const Layer &prevLayer)
 	// sigmoid function
 	m_outputVal = 1.0 / (1.0 + exp(-sumOutput));
 }
-
-// double Neuron::transferFunction(double x)
-// {
-// 	// tanh - output range [-1...1]
-// 	// return tanh(x);
-// 	// sigmoid
-// 	return sigmoid(x);
-// }
-
-// double Neuron::transferFunctionDerivative(double x) 
-// {
-// 	// tanh derivative
-// 	// return 1.0 - x * x;
-// 	// sigmoid derivative function
-// 	// return (sigmoid(x)*(1 - sigmoid(x)));
-// 	return x*(1.0 - x);
-// }
-
-// double Neuron::sigmoid(double x) {
-// 	return 1.0 / (1.0 + exp(-x));
-// }
 
 void Neuron::calcOutputGradients(double targetVal)
 {

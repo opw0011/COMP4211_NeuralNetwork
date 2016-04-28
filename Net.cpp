@@ -7,12 +7,6 @@ double Net::getError(void) const {
     return m_error;
 }
 
-// double Net::sigmoid(double x) const{
-// 	double exp_val;
-// 	exp_val = exp((double) -x);
-// 	return 1 / (1 + exp_val);
-// }
-
 Net::Net(const std::vector<unsigned> &topology, const double eta)
 {
 	unsigned numLayers = topology.size();
@@ -24,7 +18,7 @@ Net::Net(const std::vector<unsigned> &topology, const double eta)
 		// add a bias neuron to the layer:
 		for (unsigned neuronNum = 0; neuronNum <= topology[layerNum]; ++neuronNum) {
 			m_layers.back().push_back(Neuron(numOutputs, neuronNum));
-			std::cout << "Made a Neuron!" << std::endl;
+			std::cout << "Neuron made." << std::endl;
 		}
 		// force the bias node's output value to 1.0. It's the last neuron created above
 		m_layers.back().back().setOutputVal(1.0);
@@ -51,36 +45,22 @@ void Net::feedForward(const std::vector<double> &inputVals)
 
 void Net::backProp(const std::vector<double> &targetVals)
 {
-	// calc overall net error (rms of output neuron errors)
-
 	Layer &outputLayer = m_layers.back();
 	m_error = 0.0;
 
-	// 1/2 sum_k=outputUnits(tk- ok)^2
-
-	// for (unsigned n = 0; n < outputLayer.size() - 1; ++n) {
-	// 	double delta = targetVals[n] - outputLayer[n].getOutputVal();
-	// 	m_error += delta * delta;
-	// }
-	// m_error /= outputLayer.size() - 1;
-	// m_error = sqrt(m_error);  // RMS
+	// calculate the standard squared error
 	for (int i = 0; i < outputLayer.size() -1; i++) {
 		double delta = targetVals[i] - outputLayer[i].getOutputVal();
 		m_error += 0.5 * delta * delta;
 	}
 
-	// implement a recent avg measurement
-	// m_recentAverageError = 
-	// 		(m_recentAverageError * m_recentAverageSmoothingFactor + m_error)
-	// 		/ (m_recentAverageSmoothingFactor + 1.0);
-
-	// calc output layer gradients
+	// calculate output layer gradients
 
 	for (unsigned n = 0; n < outputLayer.size() - 1; ++n) {
 		outputLayer[n].calcOutputGradients(targetVals[n]);
 	}
 
-	// calc gradients on hidden layers
+	// calculate hidden latyer gradients
 
 	for (unsigned layerNum = m_layers.size() - 2; layerNum > 0; --layerNum) {
 		Layer &hiddenLayer = m_layers[layerNum];
