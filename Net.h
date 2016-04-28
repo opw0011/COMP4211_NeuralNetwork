@@ -46,8 +46,8 @@ public:
 private:
 	// ...
 
-	std::vector<Layer> m_layers; //m_layers[layerNum][neuronNum]
-	double m_error;
+	std::vector<Layer> layers; //layers[layerNum][neuronNum]
+	double std_error;
 
 };
 

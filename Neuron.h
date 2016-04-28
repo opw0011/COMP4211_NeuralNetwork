@@ -10,6 +10,7 @@
 
 class Neuron;
 typedef std::vector<Neuron> Layer;
+
 struct Connection
 {
 	double weight;
@@ -19,21 +20,21 @@ struct Connection
 class Neuron
 {
 public:
-	Neuron(int numOutputs, int myIndex);
-	void setOutputVal(double val) { m_outputVal = val; };
-	double getOutputVal(void) const { return m_outputVal; };
+	Neuron(int numOutputs, int index);
+	void setOutputVal(double val) { outputVal = val; };
+	double getOutputVal(void) const { return outputVal; };
 	void feedForward(const Layer &prevLayer);
 	void calcOutputGradients(double targetVal);
 	void calcHiddenGradients(const Layer &nextLayer);
 	void updateInputWeights(Layer &prevLayer);
+	static double eta; // range:0 to 1, training rate
 
 private:
-	static double eta; // [0..1] overall net training rate
 	double sumDOW(const Layer &nextLayer) const;
-	double m_outputVal;
-	std::vector<Connection> m_outputWeights;
-	int m_myIndex;
-	double m_gradient;
+	double outputVal;
+	std::vector<Connection> outputWeights;
+	int index;
+	double gradient;
 };
 
 #endif//NEURON_H
